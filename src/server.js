@@ -420,22 +420,22 @@ async function _sendProfileCreatedEmail(citizen) {
         `Taluka: ${citizen.taluka || '-'}\n\n` +
         'You can now continue using RoadCare to submit complaints and track your activity.\n\n' +
         'Regards,\nRoadCare Team',
-      html: _buildEmailShell(
-        eyebrow: 'RoadCare Citizen Profile',
-        title: 'Profile Saved Successfully',
-        intro:
-            `Hello ${citizen.name}, your RoadCare citizen profile has been saved successfully. ` +
-            'You can now continue using the app to submit road complaints and manage your account details.',
-        accentColor: '#0e8f8d',
-        rows: [
-          { label: 'Citizen ID', value: citizen.citizenId },
-          { label: 'Registered Email', value: citizen.email },
-          { label: 'City', value: citizen.city || '-' },
-          { label: 'Taluka', value: citizen.taluka || '-' },
-        ],
-        footer:
-            'This is an automated confirmation from RoadCare. If you did not expect this update, please review your account information.',
-      ),
+      html: _buildEmailShell({
+  eyebrow: 'RoadCare Citizen Profile',
+  title: 'Profile Saved Successfully',
+  intro:
+    `Hello ${citizen.name}, your RoadCare citizen profile has been saved successfully. ` +
+    'You can now continue using the app to submit road complaints and manage your account details.',
+  accentColor: '#0e8f8d',
+  rows: [
+    { label: 'Citizen ID', value: citizen.citizenId },
+    { label: 'Registered Email', value: citizen.email },
+    { label: 'City', value: citizen.city || '-' },
+    { label: 'Taluka', value: citizen.taluka || '-' },
+  ],
+  footer:
+    'This is an automated confirmation from RoadCare. If you did not expect this update, please review your account information.',
+}),
     });
   } catch (error) {
     console.error('Failed to send profile email', error);
