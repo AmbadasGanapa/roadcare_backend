@@ -409,7 +409,7 @@ function _buildEmailShell({
 async function _sendProfileCreatedEmail(citizen) {
   try {
     await _sendEmailIfConfigured({
-      to: citizen.email,
+      to: citizen.email,  
       subject: 'RoadCare Profile Confirmation',
       text:
         `Hello ${citizen.name},\n\n` +
@@ -420,7 +420,7 @@ async function _sendProfileCreatedEmail(citizen) {
         `Taluka: ${citizen.taluka || '-'}\n\n` +
         'You can now continue using RoadCare to submit complaints and track your activity.\n\n' +
         'Regards,\nRoadCare Team',
-      html: _buildEmailShell({
+     html: _buildEmailShell({
   eyebrow: 'RoadCare Citizen Profile',
   title: 'Profile Saved Successfully',
   intro:
@@ -473,7 +473,7 @@ async function _sendComplaintCreatedEmail(complaint) {
         ],
         footer:
             'Please keep this email for your records. You may be contacted if additional clarification is required.',
-      }),
+    }),
     });
   } catch (error) {
     console.error('Failed to send complaint email', error);
@@ -492,8 +492,8 @@ app.post('/api/feed', async (req, res) => {
       address: String(req.body?.address ?? '').trim(),
       imageUrl: String(req.body?.imageUrl ?? '').trim(),
       imageBase64: String(req.body?.imageBase64 ?? '').trim(),
-      latitude: typeof req.body?.latitude === 'number' ? req.body.latitude : null,
-      longitude: typeof req.body?.longitude === 'number' ? req.body.longitude : null,
+latitude: Number(req.body?.latitude) || null,
+longitude: Number(req.body?.longitude) || null,
     };
 
     if (
@@ -550,12 +550,12 @@ app.post('/api/feed', async (req, res) => {
       ..._mapLegacyComplaintToFeedItem(createdComplaint),
     };
 
-    _sendComplaintCreatedEmail(responseBody);
+    // _sendComplaintCreatedEmail(responseBody);
     return res.status(201).json(responseBody);
   } catch (error) {
     console.error('Failed to create feed post', error);
     return res.status(500).json({
-      message: 'Failed to create feed post.',
+      message: error.message,
     });
   }
 });
@@ -773,7 +773,7 @@ app.post('/api/citizen-info', async (req, res) => {
       updatedAt: citizen.updatedAt,
     };
 
-    _sendProfileCreatedEmail(responseBody);
+    // _sendProfileCreatedEmail(responseBody);
     return res.status(201).json(responseBody);
   } catch (error) {
     console.error('Failed to save citizen info', error);
