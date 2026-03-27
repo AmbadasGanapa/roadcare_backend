@@ -457,7 +457,7 @@ async function _sendComplaintCreatedEmail(complaint) {
         `Timestamp: ${complaint.createdAt}\n\n` +
         'Our field team will review the report and take the necessary action.\n\n' +
         'Regards,\nRoadCare Team',
-      html: _buildEmailShell(
+      html: _buildEmailShell({
         eyebrow: 'RoadCare Complaint Desk',
         title: 'Complaint Submitted',
         intro:
@@ -473,7 +473,7 @@ async function _sendComplaintCreatedEmail(complaint) {
         ],
         footer:
             'Please keep this email for your records. You may be contacted if additional clarification is required.',
-      ),
+      }),
     });
   } catch (error) {
     console.error('Failed to send complaint email', error);
